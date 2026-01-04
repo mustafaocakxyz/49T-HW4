@@ -1,8 +1,6 @@
 # PneumoniaMNIST Binary Classification Report
 
-**Author:** [Your Name]  
-**Date:** [Date]  
-**Course:** CMPE49T HW4
+**Student:** Mustafa Ocak | 2021400159  
 
 ---
 
