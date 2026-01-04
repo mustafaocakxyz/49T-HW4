@@ -23,7 +23,7 @@ This project implements a binary classification pipeline for chest X-ray images 
 | Test | 234 | 390 | 624 | 37.50% | 62.50% |
 
 **Figure 1: Class Distribution Visualization**
-<img width="2233" height="594" alt="class_distribution" src="https://github.com/user-attachments/assets/371a3d6d-788a-4bcb-ad6a-e720f1dd5700" />
+<img width="2233" height="594" alt="class_distribution" src="https://github.com/user-attachments/assets/371a3d6d-788a-4bcb-ad6a-e720f1dd5700" style="width:70%; height:auto;"/>
 
 **Observations:**
 - Training and validation sets have similar distributions (~25.8% Normal, ~74.2% Pneumonia)
@@ -33,14 +33,14 @@ This project implements a binary classification pipeline for chest X-ray images 
 ### 2.2 Sample Images Visualization
 
 **Figure 2: Sample Images from Each Class**
-<img width="1723" height="742" alt="sample_images" src="https://github.com/user-attachments/assets/f6a40eba-e5b8-4ae0-a1c2-6938f11dcabf" />
+<img width="1723" height="742" alt="sample_images" src="https://github.com/user-attachments/assets/f6a40eba-e5b8-4ae0-a1c2-6938f11dcabf" style="width:70%; height:auto;"/>
 
 Shows 5 sample images from each class (Normal on top row, Pneumonia on bottom row).
 
 ### 2.3 Pixel Intensity Histograms
 
 **Figure 3: Pixel Intensity Histograms**
-<img width="1783" height="593" alt="pixel_histograms" src="https://github.com/user-attachments/assets/5c00db76-c0a8-4ffe-be8a-87a90fcf17d6" />
+<img width="1783" height="593" alt="pixel_histograms" src="https://github.com/user-attachments/assets/5c00db76-c0a8-4ffe-be8a-87a90fcf17d6" style="width:70%; height:auto;"/>
 
 
 **Statistics:**
@@ -125,7 +125,7 @@ The network consists of 8 layers:
 ### 4.2 Training and Validation Loss
 
 **Figure 4: Training and Validation Loss Over Epochs**
-<img width="1483" height="882" alt="training_loss" src="https://github.com/user-attachments/assets/6d08f424-ff66-49d7-bdb7-e224b91a0a22" />
+<img width="1483" height="882" alt="training_loss" src="https://github.com/user-attachments/assets/6d08f424-ff66-49d7-bdb7-e224b91a0a22" style="width:70%; height:auto;"/>
 
 
 Training completed for 50 epochs:
@@ -137,7 +137,7 @@ Training completed for 50 epochs:
 ### 4.3 Validation Metrics Over Epochs
 
 **Figure 5: Validation Metrics Over Epochs**
-<img width="2084" height="1476" alt="validation_metrics" src="https://github.com/user-attachments/assets/b64b6dbb-4d9a-43e0-ab2c-bb80f825eebf" />
+<img width="2084" height="1476" alt="validation_metrics" src="https://github.com/user-attachments/assets/b64b6dbb-4d9a-43e0-ab2c-bb80f825eebf" style="width:70%; height:auto;"/>
 
 
 Metrics improved consistently:
@@ -171,7 +171,7 @@ Metrics improved consistently:
 ### 5.2 Confusion Matrix
 
 **Figure 6: Confusion Matrix - Test Set**
-<img width="1111" height="882" alt="confusion_matrix_test" src="https://github.com/user-attachments/assets/8fcfacd2-6ed1-4129-addb-cba8230caaf9" />
+<img width="1111" height="882" alt="confusion_matrix_test" src="https://github.com/user-attachments/assets/8fcfacd2-6ed1-4129-addb-cba8230caaf9" style="width:70%; height:auto;"/>
 
 
 **Test Set Confusion Matrix:**
@@ -188,7 +188,7 @@ Metrics improved consistently:
 ### 5.3 ROC Curve
 
 **Figure 7: ROC Curve - Test Set**
-<img width="1183" height="882" alt="roc_curve_test" src="https://github.com/user-attachments/assets/682f3cd5-1fe0-47da-bd7d-97e6a6464743" />
+<img width="1183" height="882" alt="roc_curve_test" src="https://github.com/user-attachments/assets/682f3cd5-1fe0-47da-bd7d-97e6a6464743" style="width:70%; height:auto;"/>
 
 
 - **AUC Score:** 0.9051 - indicates good ability to distinguish between classes
