@@ -40,7 +40,8 @@ Shows 5 sample images from each class (Normal on top row, Pneumonia on bottom ro
 ### 2.3 Pixel Intensity Histograms
 
 **Figure 3: Pixel Intensity Histograms**
-/Users/mustafaocak/CMPE49T HW4/phase1_plots/pixel_histograms.png
+<img width="1783" height="593" alt="pixel_histograms" src="https://github.com/user-attachments/assets/5c00db76-c0a8-4ffe-be8a-87a90fcf17d6" />
+
 
 **Statistics:**
 - Normal Class: Mean=139.90, Std=46.82
@@ -124,7 +125,8 @@ The network consists of 8 layers:
 ### 4.2 Training and Validation Loss
 
 **Figure 4: Training and Validation Loss Over Epochs**
-/Users/mustafaocak/CMPE49T HW4/training_results/training_loss.png
+<img width="1483" height="882" alt="training_loss" src="https://github.com/user-attachments/assets/6d08f424-ff66-49d7-bdb7-e224b91a0a22" />
+
 
 Training completed for 50 epochs:
 - Training loss decreased from 0.8036 to 0.2825
@@ -135,7 +137,8 @@ Training completed for 50 epochs:
 ### 4.3 Validation Metrics Over Epochs
 
 **Figure 5: Validation Metrics Over Epochs**
-/Users/mustafaocak/CMPE49T HW4/training_results/validation_metrics.png
+<img width="2084" height="1476" alt="validation_metrics" src="https://github.com/user-attachments/assets/b64b6dbb-4d9a-43e0-ab2c-bb80f825eebf" />
+
 
 Metrics improved consistently:
 - Accuracy: 0.7424 → 0.8779
@@ -168,7 +171,8 @@ Metrics improved consistently:
 ### 5.2 Confusion Matrix
 
 **Figure 6: Confusion Matrix - Test Set**
-/Users/mustafaocak/CMPE49T HW4/training_results/confusion_matrix_test.png
+<img width="1111" height="882" alt="confusion_matrix_test" src="https://github.com/user-attachments/assets/8fcfacd2-6ed1-4129-addb-cba8230caaf9" />
+
 
 **Test Set Confusion Matrix:**
 
@@ -184,7 +188,8 @@ Metrics improved consistently:
 ### 5.3 ROC Curve
 
 **Figure 7: ROC Curve - Test Set**
-/Users/mustafaocak/CMPE49T HW4/training_results/roc_curve_test.png
+<img width="1183" height="882" alt="roc_curve_test" src="https://github.com/user-attachments/assets/682f3cd5-1fe0-47da-bd7d-97e6a6464743" />
+
 
 - **AUC Score:** 0.9051 - indicates good ability to distinguish between classes
 - Curve shows strong performance with high true positive rate at low false positive rates
