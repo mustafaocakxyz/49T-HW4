@@ -23,7 +23,7 @@ This project implements a binary classification pipeline for chest X-ray images 
 | Test | 234 | 390 | 624 | 37.50% | 62.50% |
 
 **Figure 1: Class Distribution Visualization**
-/Users/mustafaocak/CMPE49T HW4/phase1_plots/class_distribution.png
+<img width="2233" height="594" alt="class_distribution" src="https://github.com/user-attachments/assets/371a3d6d-788a-4bcb-ad6a-e720f1dd5700" />
 
 **Observations:**
 - Training and validation sets have similar distributions (~25.8% Normal, ~74.2% Pneumonia)
@@ -33,7 +33,7 @@ This project implements a binary classification pipeline for chest X-ray images 
 ### 2.2 Sample Images Visualization
 
 **Figure 2: Sample Images from Each Class**
-/Users/mustafaocak/CMPE49T HW4/phase1_plots/sample_images.png
+<img width="1723" height="742" alt="sample_images" src="https://github.com/user-attachments/assets/f6a40eba-e5b8-4ae0-a1c2-6938f11dcabf" />
 
 Shows 5 sample images from each class (Normal on top row, Pneumonia on bottom row).
 
