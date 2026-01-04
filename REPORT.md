@@ -25,7 +25,7 @@ This project implements a binary classification pipeline for chest X-ray images 
 | Test | 234 | 390 | 624 | 37.50% | 62.50% |
 
 **Figure 1: Class Distribution Visualization**
-*[See: `phase1_plots/class_distribution.png`]*
+/Users/mustafaocak/CMPE49T HW4/phase1_plots/class_distribution.png
 
 **Observations:**
 - Training and validation sets have similar distributions (~25.8% Normal, ~74.2% Pneumonia)
@@ -35,14 +35,14 @@ This project implements a binary classification pipeline for chest X-ray images 
 ### 2.2 Sample Images Visualization
 
 **Figure 2: Sample Images from Each Class**
-*[See: `phase1_plots/sample_images.png`]*
+/Users/mustafaocak/CMPE49T HW4/phase1_plots/sample_images.png
 
 Shows 5 sample images from each class (Normal on top row, Pneumonia on bottom row).
 
 ### 2.3 Pixel Intensity Histograms
 
 **Figure 3: Pixel Intensity Histograms**
-*[See: `phase1_plots/pixel_histograms.png`]*
+/Users/mustafaocak/CMPE49T HW4/phase1_plots/pixel_histograms.png
 
 **Statistics:**
 - Normal Class: Mean=139.90, Std=46.82
@@ -126,7 +126,7 @@ The network consists of 8 layers:
 ### 4.2 Training and Validation Loss
 
 **Figure 4: Training and Validation Loss Over Epochs**
-*[See: `training_results/training_loss.png`]*
+/Users/mustafaocak/CMPE49T HW4/training_results/training_loss.png
 
 Training completed for 50 epochs:
 - Training loss decreased from 0.8036 to 0.2825
@@ -137,7 +137,7 @@ Training completed for 50 epochs:
 ### 4.3 Validation Metrics Over Epochs
 
 **Figure 5: Validation Metrics Over Epochs**
-*[See: `training_results/validation_metrics.png`]*
+/Users/mustafaocak/CMPE49T HW4/training_results/validation_metrics.png
 
 Metrics improved consistently:
 - Accuracy: 0.7424 → 0.8779
@@ -170,7 +170,7 @@ Metrics improved consistently:
 ### 5.2 Confusion Matrix
 
 **Figure 6: Confusion Matrix - Test Set**
-*[See: `training_results/confusion_matrix_test.png`]*
+/Users/mustafaocak/CMPE49T HW4/training_results/confusion_matrix_test.png
 
 **Test Set Confusion Matrix:**
 
@@ -186,7 +186,7 @@ Metrics improved consistently:
 ### 5.3 ROC Curve
 
 **Figure 7: ROC Curve - Test Set**
-*[See: `training_results/roc_curve_test.png`]*
+/Users/mustafaocak/CMPE49T HW4/training_results/roc_curve_test.png
 
 - **AUC Score:** 0.9051 - indicates good ability to distinguish between classes
 - Curve shows strong performance with high true positive rate at low false positive rates
