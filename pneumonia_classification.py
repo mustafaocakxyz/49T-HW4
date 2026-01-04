@@ -1,35 +1,156 @@
-"""
-Complete Training Script for PneumoniaMNIST Classification
-Standalone version with all necessary functions included.
-"""
-
 import numpy as np
 import os
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc, roc_auc_score, confusion_matrix
 import seaborn as sns
 
-# Set random seed for reproducibility
 np.random.seed(42)
 
-print("=" * 70)
-print("PNEUMONIAMNIST BINARY CLASSIFICATION - FULL TRAINING")
-print("=" * 70)
+# ============================================================================
+# Phase 1: Data Preparation
+# ============================================================================
+
+try:
+    from medmnist import PneumoniaMNIST
+    data_class = PneumoniaMNIST(split='train', download=True, transform=None)
+    train_images = data_class.imgs
+    train_labels = data_class.labels.flatten()
+    data_class_val = PneumoniaMNIST(split='val', download=True, transform=None)
+    val_images = data_class_val.imgs
+    val_labels = data_class_val.labels.flatten()
+    data_class_test = PneumoniaMNIST(split='test', download=True, transform=None)
+    test_images = data_class_test.imgs
+    test_labels = data_class_test.labels.flatten()
+except Exception as e:
+    if os.path.exists('pneumoniamnist.npz'):
+        data = np.load('pneumoniamnist.npz')
+        train_images = data['train_images']
+        train_labels = data['train_labels']
+        val_images = data['val_images']
+        val_labels = data['val_labels']
+        test_images = data['test_images']
+        test_labels = data['test_labels']
+    else:
+        raise FileNotFoundError("Could not find pneumoniamnist.npz file. Please download it or install medmnist package.")
+
+train_images_norm = train_images.astype(np.float32) / 255.0
+val_images_norm = val_images.astype(np.float32) / 255.0
+test_images_norm = test_images.astype(np.float32) / 255.0
+
+save_dir = "chatgpt data normalized"
+os.makedirs(save_dir, exist_ok=True)
+np.savez_compressed(
+    os.path.join(save_dir, 'normalized_data.npz'),
+    train_images=train_images_norm,
+    train_labels=train_labels,
+    val_images=val_images_norm,
+    val_labels=val_labels,
+    test_images=test_images_norm,
+    test_labels=test_labels
+)
+
+plots_dir = "phase1_plots"
+os.makedirs(plots_dir, exist_ok=True)
+
+normal_indices = np.where(train_labels == 0)[0]
+pneumonia_indices = np.where(train_labels == 1)[0]
+np.random.seed(42)
+normal_samples = np.random.choice(normal_indices, 5, replace=False)
+pneumonia_samples = np.random.choice(pneumonia_indices, 5, replace=False)
+
+fig, axes = plt.subplots(2, 5, figsize=(12, 5))
+fig.suptitle('Sample Images: Normal (Top) vs Pneumonia (Bottom)', fontsize=14)
+
+for i, idx in enumerate(normal_samples):
+    axes[0, i].imshow(train_images[idx], cmap='gray')
+    axes[0, i].set_title(f'Normal\nIndex: {idx}')
+    axes[0, i].axis('off')
+
+for i, idx in enumerate(pneumonia_samples):
+    axes[1, i].imshow(train_images[idx], cmap='gray')
+    axes[1, i].set_title(f'Pneumonia\nIndex: {idx}')
+    axes[1, i].axis('off')
+
+plt.tight_layout()
+plt.savefig(os.path.join(plots_dir, 'sample_images.png'), dpi=150, bbox_inches='tight')
+plt.close()
+
+normal_pixels = train_images[train_labels == 0].flatten()
+pneumonia_pixels = train_images[train_labels == 1].flatten()
+
+fig, axes = plt.subplots(1, 2, figsize=(12, 4))
+fig.suptitle('Pixel Intensity Histograms by Class', fontsize=14)
+
+axes[0].hist(normal_pixels, bins=50, color='blue', alpha=0.7, edgecolor='black')
+axes[0].set_title('Normal Class')
+axes[0].set_xlabel('Pixel Intensity')
+axes[0].set_ylabel('Frequency')
+axes[0].grid(True, alpha=0.3)
+
+axes[1].hist(pneumonia_pixels, bins=50, color='red', alpha=0.7, edgecolor='black')
+axes[1].set_title('Pneumonia Class')
+axes[1].set_xlabel('Pixel Intensity')
+axes[1].set_ylabel('Frequency')
+axes[1].grid(True, alpha=0.3)
+
+plt.tight_layout()
+plt.savefig(os.path.join(plots_dir, 'pixel_histograms.png'), dpi=150, bbox_inches='tight')
+plt.close()
+
+def compute_distribution(labels):
+    total = len(labels)
+    class_0_count = np.sum(labels == 0)
+    class_1_count = np.sum(labels == 1)
+    class_0_pct = (class_0_count / total) * 100
+    class_1_pct = (class_1_count / total) * 100
+    return {
+        'total': total,
+        'class_0_count': class_0_count,
+        'class_1_count': class_1_count,
+        'class_0_pct': class_0_pct,
+        'class_1_pct': class_1_pct
+    }
+
+train_dist = compute_distribution(train_labels)
+val_dist = compute_distribution(val_labels)
+test_dist = compute_distribution(test_labels)
+
+print("Class Distribution:")
+print(f"\nTraining Set:")
+print(f"  Total samples: {train_dist['total']}")
+print(f"  Normal (0): {train_dist['class_0_count']} ({train_dist['class_0_pct']:.2f}%)")
+print(f"  Pneumonia (1): {train_dist['class_1_count']} ({train_dist['class_1_pct']:.2f}%)")
+
+print(f"\nValidation Set:")
+print(f"  Total samples: {val_dist['total']}")
+print(f"  Normal (0): {val_dist['class_0_count']} ({val_dist['class_0_pct']:.2f}%)")
+print(f"  Pneumonia (1): {val_dist['class_1_count']} ({val_dist['class_1_pct']:.2f}%)")
+
+print(f"\nTest Set:")
+print(f"  Total samples: {test_dist['total']}")
+print(f"  Normal (0): {test_dist['class_0_count']} ({test_dist['class_0_pct']:.2f}%)")
+print(f"  Pneumonia (1): {test_dist['class_1_count']} ({test_dist['class_1_pct']:.2f}%)")
+
+weight_class_0 = train_dist['total'] / (2 * train_dist['class_0_count'])
+weight_class_1 = train_dist['total'] / (2 * train_dist['class_1_count'])
+
+np.savez(
+    os.path.join(save_dir, 'class_weights.npz'),
+    weight_class_0=weight_class_0,
+    weight_class_1=weight_class_1
+)
 
 # ============================================================================
-# Core Functions (included directly to avoid slow imports)
+# Phase 2: Network Architecture
 # ============================================================================
 
 def get_emboss_kernel():
-    """Return 3x3 Emboss kernel."""
     return np.array([[-2, -1, 0], [-1, 1, 1], [0, 1, 2]], dtype=np.float32)
 
 def get_sobel_kernel():
-    """Return 3x3 Sobel kernel."""
     return np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]], dtype=np.float32)
 
 def conv2d(input_data, kernel, stride=1, padding=0):
-    """Convolution operation."""
     if input_data.ndim == 2:
         input_data = input_data[np.newaxis, :, :]
         single_image = True
@@ -63,7 +184,6 @@ def conv2d(input_data, kernel, stride=1, padding=0):
     return output
 
 def max_pool2d(input_data, pool_size=2, stride=2):
-    """Max pooling operation."""
     if input_data.ndim == 2:
         input_data = input_data[np.newaxis, :, :]
         single_image = True
@@ -96,7 +216,6 @@ def max_pool2d(input_data, pool_size=2, stride=2):
     return output, indices
 
 def flatten(input_data):
-    """Flatten input data."""
     original_shape = input_data.shape
     if input_data.ndim == 2:
         flattened = input_data.flatten()
@@ -106,25 +225,20 @@ def flatten(input_data):
     return flattened, original_shape
 
 def relu(x):
-    """ReLU activation."""
     return np.maximum(0, x)
 
 def relu_derivative(x):
-    """ReLU derivative."""
     return (x > 0).astype(np.float32)
 
 def sigmoid(x):
-    """Sigmoid activation."""
     x_clipped = np.clip(x, -500, 500)
     return 1.0 / (1.0 + np.exp(-x_clipped))
 
 def sigmoid_derivative(x):
-    """Sigmoid derivative."""
     s = sigmoid(x) if np.any(x < 0) or np.any(x > 1) else x
     return s * (1 - s)
 
 class DenseLayer:
-    """Dense layer."""
     def __init__(self, input_size, output_size, initialization='xavier'):
         self.input_size = input_size
         self.output_size = output_size
@@ -155,7 +269,6 @@ class DenseLayer:
         self.bias -= learning_rate * self.grad_bias
 
 class DropoutLayer:
-    """Dropout layer."""
     def __init__(self, rate=0.5):
         self.rate = rate
         self.mask = None
@@ -175,7 +288,6 @@ class DropoutLayer:
         return grad_output
 
 class PneumoniaCNN:
-    """Complete CNN model."""
     def __init__(self):
         self.emboss_kernel = get_emboss_kernel()
         self.sobel_kernel = get_sobel_kernel()
@@ -206,8 +318,11 @@ class PneumoniaCNN:
         dense2_output = self.dense2.forward(self.dropout_output)
         return sigmoid(dense2_output)
 
+# ============================================================================
+# Phase 3: Loss & Optimizer
+# ============================================================================
+
 def weighted_binary_cross_entropy(y_true, y_pred, class_weights):
-    """Weighted Binary Cross-Entropy loss."""
     y_true = np.array(y_true, dtype=np.float32)
     y_pred = np.array(y_pred, dtype=np.float32)
     
@@ -233,8 +348,11 @@ def weighted_binary_cross_entropy(y_true, y_pred, class_weights):
         return loss, grad.flatten()
     return loss, grad
 
+# ============================================================================
+# Phase 4: Backward Propagation
+# ============================================================================
+
 def conv2d_backward(grad_output, input_data, kernel):
-    """Backward pass for convolution."""
     if input_data.ndim == 2:
         input_data = input_data[np.newaxis, :, :]
         grad_output = grad_output[np.newaxis, :, :]
@@ -274,7 +392,6 @@ def conv2d_backward(grad_output, input_data, kernel):
     return grad_input, grad_kernel
 
 def max_pool2d_backward(grad_output, input_data, indices):
-    """Backward pass for max pooling."""
     if input_data.ndim == 2:
         input_data = input_data[np.newaxis, :, :]
         grad_output = grad_output[np.newaxis, :, :]
@@ -301,15 +418,13 @@ def max_pool2d_backward(grad_output, input_data, indices):
     return grad_input
 
 def flatten_backward(grad_output, original_shape):
-    """Backward pass for flatten."""
     return grad_output.reshape(original_shape)
 
 # ============================================================================
-# Training Functions
+# Phase 5: Training
 # ============================================================================
 
 def create_batches(images, labels, batch_size, shuffle=True):
-    """Create batches from dataset."""
     N = len(images)
     indices = np.arange(N)
     if shuffle:
@@ -322,7 +437,6 @@ def create_batches(images, labels, batch_size, shuffle=True):
     return batches
 
 def cnn_backward(model, grad_output, y_pred):
-    """Complete backward pass through the CNN."""
     grad_output = grad_output.reshape(-1, 1)
     sigmoid_deriv = y_pred * (1 - y_pred)
     sigmoid_grad = grad_output * sigmoid_deriv
@@ -338,7 +452,6 @@ def cnn_backward(model, grad_output, y_pred):
     grad_conv1_input, _ = conv2d_backward(grad_pool1_input, model.conv1_output, model.emboss_kernel)
 
 def train_epoch(model, train_images, train_labels, batch_size, class_weights, learning_rate):
-    """Train for one epoch."""
     batches = create_batches(train_images, train_labels, batch_size, shuffle=True)
     total_loss = 0.0
     num_batches = 0
@@ -355,7 +468,6 @@ def train_epoch(model, train_images, train_labels, batch_size, class_weights, le
     return total_loss / num_batches
 
 def evaluate(model, images, labels, class_weights):
-    """Evaluate model on a dataset."""
     predictions = model.forward(images, training=False)
     predictions_flat = predictions.flatten()
     loss, _ = weighted_binary_cross_entropy(labels, predictions_flat, class_weights)
@@ -363,7 +475,6 @@ def evaluate(model, images, labels, class_weights):
     return loss, predictions_flat, predictions_binary
 
 def compute_metrics(y_true, y_pred_binary, y_pred_proba):
-    """Compute classification metrics."""
     TP = np.sum((y_true == 1) & (y_pred_binary == 1))
     FP = np.sum((y_true == 0) & (y_pred_binary == 1))
     TN = np.sum((y_true == 0) & (y_pred_binary == 0))
@@ -387,7 +498,6 @@ def compute_metrics(y_true, y_pred_binary, y_pred_proba):
     }
 
 class EarlyStopping:
-    """Early stopping to prevent overfitting."""
     def __init__(self, patience=5, min_delta=0.0):
         self.patience = patience
         self.min_delta = min_delta
@@ -410,7 +520,7 @@ class EarlyStopping:
             return False
 
 # ============================================================================
-# Main Training
+# Main Execution
 # ============================================================================
 
 data = np.load('chatgpt data normalized/normalized_data.npz')
@@ -469,7 +579,6 @@ for epoch in range(MAX_EPOCHS):
     if early_stopping(val_loss, epoch):
         break
 
-# Restore best model
 if best_model_state is not None:
     model.dense1.weights = best_model_state['dense1_weights']
     model.dense1.bias = best_model_state['dense1_bias']
@@ -505,6 +614,7 @@ np.savez(os.path.join(results_dir, 'training_history.npz'), **history)
 np.savez(os.path.join(results_dir, 'final_metrics.npz'),
          val_metrics=val_metrics, test_metrics=test_metrics,
          best_epoch=best_epoch, best_val_loss=best_val_loss)
+
 plt.figure(figsize=(10, 6))
 plt.plot(history['train_loss'], label='Training Loss', linewidth=2)
 plt.plot(history['val_loss'], label='Validation Loss', linewidth=2)
@@ -551,5 +661,4 @@ plt.title('ROC Curve - Test Set'); plt.legend(loc="lower right"); plt.grid(True,
 plt.tight_layout()
 plt.savefig(os.path.join(results_dir, 'roc_curve_test.png'), dpi=150, bbox_inches='tight')
 plt.close()
-
 
