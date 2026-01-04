@@ -229,24 +229,19 @@ Metrics improved consistently:
 2. **Learnable Kernels:** Replace fixed Emboss/Sobel kernels with learnable convolutional filters
 3. **Deeper Architecture:** Add more convolutional layers and increase dense layer capacity
 4. **Higher Resolution:** Use full-resolution X-rays (224×224 or 512×512) for better feature detection
-5. **Advanced Optimizers:** Use Adam or RMSprop instead of SGD for better convergence
-6. **Learning Rate Scheduling:** Implement LR decay when validation loss plateaus
-7. **Transfer Learning:** Use pre-trained features from medical imaging datasets
-8. **Class Balancing:** Use oversampling (SMOTE) or undersampling in addition to weighted loss
-9. **Regularization:** Add L2 weight regularization and batch normalization
-10. **Hyperparameter Tuning:** Systematically tune learning rate, batch size, dropout rate
+5. **Learning Rate Scheduling:** Implement LR decay when validation loss plateaus
+6. **Transfer Learning:** Use pre-trained features from medical imaging datasets
+7. **Regularization:** Add L2 weight regularization and batch normalization
+8. **Hyperparameter Tuning:** Systematically tune learning rate, batch size, dropout rate
 
 ---
 
 ## 7. Conclusion
 
-This project successfully implemented a complete binary classification pipeline for pneumonia detection using NumPy. The model achieved 76.60% accuracy on the test set with 99.49% recall, ensuring almost no Pneumonia cases are missed. The Normal class was more challenging to classify (38.46% specificity), but the model's conservative approach (high sensitivity) is appropriate for medical screening applications.
-
-The implementation demonstrates that a custom-built neural network can achieve reasonable performance on medical image classification, providing valuable insights into the fundamentals of deep learning.
+The model achieved 76.60% accuracy on the test set with 99.49% recall, ensuring almost no Pneumonia cases are missed. The Normal class was more challenging to classify (38.46% specificity), but the model's conservative approach (high sensitivity) is appropriate for medical screening applications.
 
 ---
 
 ## References
 
 1. MedMNIST: https://github.com/MedMNIST/MedMNIST
-
